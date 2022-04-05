@@ -1,15 +1,14 @@
 //
 //  ColorMapView.swift
-//  ColorPicker3
+//  ColorWheel
 //
-//  Created by Hayashi Ryota on 2019/02/16.
-//  Copyright © 2019 Hayashi Ryota. All rights reserved.
+//  Created by Jayesh Tejwani on 05/04/22.
 //
 
 import UIKit
 import CoreFoundation
 
-internal class ColorMapView: UIView {
+class ColorMapView: UIView {
 
     private var model = HRColorMapModel()
 
@@ -78,7 +77,7 @@ internal class ColorMapView: UIView {
     
     private func setup() {
         updateStrokeColor()
-        backgounrdLayer.backgroundColor = UIColor.black.cgColor
+        backgounrdLayer.backgroundColor = UIColor.white.cgColor
         backgounrdLayer.lineWidth = borderWidth
         layer.addSublayer(backgounrdLayer)
         colorMap.mask = maskLayer

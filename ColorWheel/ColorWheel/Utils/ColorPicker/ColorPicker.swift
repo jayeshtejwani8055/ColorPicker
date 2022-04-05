@@ -1,9 +1,8 @@
 //
-//  HRColorPicker.swift
-//  ColorPicker3
+//  ColorPicker.swift
+//  ColorWheel
 //
-//  Created by Hayashi Ryota on 2019/02/16.
-//  Copyright © 2019 Hayashi Ryota. All rights reserved.
+//  Created by Jayesh Tejwani on 05/04/22.
 //
 
 import UIKit
@@ -18,8 +17,6 @@ public class ColorPicker: UIControl {
         }
     }
 
-    private let brightnessCursor = BrightnessCursor()
-    private let brightnessSlider = BrightnessSlider()
     private let colorMap = ColorMapView()
     private let colorMapCursor = ColorMapCursor()
 
@@ -39,8 +36,6 @@ public class ColorPicker: UIControl {
     
     private func setup() {
         addSubview(colorMap)
-     //   addSubview(brightnessSlider)
-     //   addSubview(brightnessCursor)
         addSubview(colorMapCursor)
 
         let colorMapPan = UIPanGestureRecognizer(target: self, action: #selector(self.handleColorMapPan(pan:)))
@@ -50,9 +45,6 @@ public class ColorPicker: UIControl {
         let colorMapTap = UITapGestureRecognizer(target: self, action: #selector(self.handleColorMapTap(tap:)))
         colorMapTap.delegate = self
         colorMap.addGestureRecognizer(colorMapTap)
-
-        brightnessSlider.delegate = self
-
         feedbackGenerator.prepare()
     }
 
@@ -67,50 +59,15 @@ public class ColorPicker: UIControl {
     
     public override func layoutSubviews() {
         super.layoutSubviews()
-
-        let margin: CGFloat = 0
-        let brightnessSliderWidth: CGFloat = 0
         colorMap.frame = CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height)
         colorMap.backgroundColor = .clear
-          
-        //CGRect(x: 0, y: (bounds.height - colorMapSize)/2, width: colorMapSize + margin * 2, height: colorMapSize)
-//        brightnessSlider.frame = CGRect(x: colorMapSize + margin * 2, y: (bounds.height - colorMapSize)/2,
-//                                        width: brightnessSliderWidth, height: colorMapSize)
-//
-//        let brightnessCursorSize = CGSize(width: brightnessSliderWidth, height: 28)
-//        brightnessCursor.frame = CGRect(x: colorMapSize + margin * 2,
-//                                        y: (bounds.height - brightnessCursorSize.height)/2,
-//                                        width: brightnessCursorSize.width, height: brightnessCursorSize.height)
         mapColorToView(initialize: true)
     }
-    
-//    public override func layoutSubviews() {
-//        super.layoutSubviews()
-//
-//        let margin: CGFloat = 12
-//        let brightnessSliderWidth: CGFloat = 72
-//        let colorMapSize = bounds.width - brightnessSliderWidth - margin * 3
-//
-//        colorMap.frame = CGRect(x: 0, y: (bounds.height - colorMapSize)/2, width: colorMapSize + margin * 2, height: colorMapSize)
-//        brightnessSlider.frame = CGRect(x: colorMapSize + margin * 2, y: (bounds.height - colorMapSize)/2,
-//                                        width: brightnessSliderWidth, height: colorMapSize)
-//
-//        let brightnessCursorSize = CGSize(width: brightnessSliderWidth, height: 28)
-//        brightnessCursor.frame = CGRect(x: colorMapSize + margin * 2,
-//                                        y: (bounds.height - brightnessCursorSize.height)/2,
-//                                        width: brightnessCursorSize.width, height: brightnessCursorSize.height)
-//        mapColorToView(initialize: true)
-//    }
-    
+
     private func mapColorToView(initialize: Bool = false) {
-        brightnessCursor.set(hsv: hsvColor)
         colorMap.set(brightness: hsvColor.brightness)
         colorMapCursor.center =  colorMap.convert(colorMap.position(for: hsvColor.hueAndSaturation), to: self)
         colorMapCursor.set(hsvColor: hsvColor)
-        brightnessSlider.set(hsColor: hsvColor.hueAndSaturation)
-        if initialize {
-            self.brightnessSlider.set(brightness: self.hsvColor.brightness)
-        }
     }
     
     @objc
@@ -147,7 +104,6 @@ public class ColorPicker: UIControl {
         }
     }
 
-    // ↑似た構造ではあるのだが、本質的に異なるので分けた
     private var prevSentActionHSV: HSVColor?
     func sendActionIfNeeds() {
         if prevSentActionHSV != hsvColor {
@@ -163,14 +119,5 @@ extension ColorPicker: UIGestureRecognizerDelegate {
             return true
         }
         return false
-    }
-}
-
-extension ColorPicker: BrightnessSliderDelegate {
-    func handleBrightnessChanged(slider: BrightnessSlider) {
-        hsvColor = hsvColor.hueAndSaturation.with(brightness: slider.brightness)
-        mapColorToView()
-        feedbackIfNeeds()
-        sendActionIfNeeds()
     }
 }

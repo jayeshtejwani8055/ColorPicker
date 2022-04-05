@@ -1,9 +1,8 @@
 //
-//  Entity.swift
-//  ColorPicker3
+//  ColorEntity.swift
+//  ColorWheel
 //
-//  Created by Hayashi Ryota on 2019/02/16.
-//  Copyright © 2019 Hayashi Ryota. All rights reserved.
+//  Created by Jayesh Tejwani on 05/04/22.
 //
 
 import UIKit
@@ -60,7 +59,7 @@ extension HSVColor {
         brightness = b
         self.colorSpace = colorSpace
     }
-
+    
     var hueAndSaturation: HSColor {
         return HSColor(colorSpace: colorSpace, hue: hue, saturation: saturation)
     }
@@ -79,8 +78,6 @@ extension HSVColor {
     private var extendedSRGBUIColor: UIColor {
         let uint8Max = CGFloat(UInt8.max)
         let rgb = self.rgbColor
-        // https://developer.apple.com/documentation/uikit/uicolor/1648568-init
-        // > Return Value: The color information represented by this object is in an extended range sRGB colorspace.
         return UIColor(displayP3Red: CGFloat(rgb.red) / uint8Max,
                        green: CGFloat(rgb.green) / uint8Max,
                        blue: CGFloat(rgb.blue) / uint8Max,

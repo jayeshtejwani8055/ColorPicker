@@ -1,14 +1,13 @@
 //
-//  HRColorCursor.swift
-//  ColorPicker3
+//  ColorMapCursor.swift
+//  ColorWheel
 //
-//  Created by Hayashi Ryota on 2019/02/16.
-//  Copyright © 2019 Hayashi Ryota. All rights reserved.
+//  Created by Jayesh Tejwani on 05/04/22.
 //
 
 import UIKit
 
-internal class ColorMapCursor: UIView {
+class ColorMapCursor: UIView {
     
     private let backgroundLayer = CALayer()
     private let colorLayer = CALayer()
